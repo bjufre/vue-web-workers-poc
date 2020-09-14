@@ -1,17 +1,30 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <h1>Vue web workers</h1>
+    <div class="users">
+      <h2>Users</h2>
+      <ul>
+        <User v-for="user in users" :key="user.id" :user="user" />
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "App",
-  components: {
-    HelloWorld
+  data: () => ({}),
+  computed: {
+    ...mapState(["users"])
+  },
+  methods: {
+    ...mapActions(["fetchUsers"])
+  },
+  async mounted() {
+    await this.fetchUsers();
   }
 };
 </script>
@@ -24,5 +37,15 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.users {
+  padding: 60px;
+  text-align-last: left;
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
 }
 </style>
